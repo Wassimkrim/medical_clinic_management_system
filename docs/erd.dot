@@ -1,0 +1,25 @@
+digraph ERD {
+  graph [rankdir=LR, bgcolor="white"];
+  node [shape=record, fontname="Arial", fontsize=10];
+  edge [fontname="Arial", fontsize=9];
+
+  users [label="{USERS|id_user PK\llast_name\lfirst_name\lusername\lpassword\lrole\l}"];
+  patients [label="{PATIENTS|id_patient PK\llast_name\lfirst_name\lbirth_date\lgender\lphone\laddress\lblood_group\lallergies\lchronic_diseases\l}"];
+  appointments [label="{APPOINTMENTS|id_appointment PK\lid_patient FK\lid_secretary FK\lappointment_date\lappointment_time\lreason\lstatus\l}"];
+  consultations [label="{CONSULTATIONS|id_consultation PK\lid_patient FK\lid_doctor FK\lconsultation_date\lsymptoms\ldiagnosis\ltreatment\lreport\l}"];
+  prescriptions [label="{PRESCRIPTIONS|id_prescription PK\lid_consultation FK\lprescription_date\lnote\l}"];
+  medicines [label="{MEDICINES|id_medicine PK\lmedicine_name\lform\ldosage\l}"];
+  lines [label="{PRESCRIPTION_LINES|id_line PK\lid_prescription FK\lid_medicine FK\ldosage_instructions\lduration\l}"];
+  certificates [label="{CERTIFICATES|id_certificate PK\lid_consultation FK\lcertificate_type\lstart_date\lduration_days\ldescription\l}"];
+  tests [label="{MEDICAL_TESTS|id_test PK\lid_consultation FK\ltest_type\lresult\ltest_date\l}"];
+
+  patients -> appointments [label="1..N"];
+  users -> appointments [label="SECRETARY creates"];
+  patients -> consultations [label="1..N"];
+  users -> consultations [label="DOCTOR performs"];
+  consultations -> prescriptions [label="1..N"];
+  prescriptions -> lines [label="1..N"];
+  medicines -> lines [label="1..N"];
+  consultations -> certificates [label="1..N"];
+  consultations -> tests [label="1..N"];
+}
